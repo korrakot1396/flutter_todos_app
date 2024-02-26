@@ -1,0 +1,37 @@
+# Flutter/Dart specific
+.dart_tool/
+.packages
+.pub/
+/build/
+
+# IDE/Editor specific
+.idea/
+.vscode/
+*.iml
+
+# macOS specific
+.DS_Store
+
+# Android specific
+.android/
+.gradle/
+/build/
+
+# iOS specific
+ios/Pods/
+ios/Podfile.lock
+ios/Flutter/Flutter.framework/
+
+# Other
+*.log
+*.apk
+*.flr
+*.gif
+*.ico
+*.lock
+*.otf
+*.png
+*.psd
+*.svg
+*.ttf
+*.zip
