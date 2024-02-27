@@ -1,6 +1,6 @@
 # flutter_gin_todo_app
 
-![](https://github.com/korrakot1396/flutter_todos_app/blob/main/preview_1.png)
+![](https://github.com/korrakot1396/flutter_todos_app/blob/main/preview_2.png)
 # organizer
 
 | nickname | full-name           | github username |
