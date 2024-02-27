@@ -32,4 +32,15 @@ fvm flutter run
 ```
 
 ## Configuration for run on localhost need to config your-ip-address
+
+_Config_
+
+```shell
+open terminal
+command 'ifconfig' for check your-ip-address
+cd flutter_todos_app
+go to lib/services/todo_service.dart
+change to your-ip-address for test on local
+```
+
 ![](https://github.com/korrakot1396/flutter_todos_app/blob/main/config.png)
