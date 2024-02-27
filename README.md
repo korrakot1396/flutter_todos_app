@@ -1,6 +1,6 @@
 # flutter_gin_todo_app
 
-![](https://github.com/korrakot1396/golang-gin-todos/blob/main/img/gin_gonic_logo.png)
+![](https://github.com/korrakot1396/flutter_todos_app/blob/main/preview_1.png)
 # organizer
 
 | nickname | full-name           | github username |
@@ -19,10 +19,14 @@ go mod tidy
 go run cmd/main.go
 ```
 
-_For unit test_
+_For frontend_
 
 ```shell
-cd golang-gin-todos
-cd ./tests
-go test
+clone https://github.com/korrakot1396/flutter_todos_app.git
+cd flutter_todos_app
+make sure fvm install
+fvm flutter build
+fvm flutter pub get
+fvm flutter pub outdated
+fvm flutter run
 ```
