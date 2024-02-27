@@ -33,7 +33,7 @@ fvm flutter run
 
 ## Configuration for run on localhost need to config your-ip-address
 
-_Config_
+_Config test on local_
 
 ```shell
 open terminal
@@ -42,6 +42,19 @@ cd flutter_todos_app
 go to lib/services/todo_service.dart
 change to your-ip-address for test on local
 ```
+
+## Configuration for run on localhost need to config your-ip-address
+
+_Config declarative plugins block_
+
+```
+go to android/build.gradle 
+update to line => ext.kotlin_version = '1.7.0'
+update dependencies => classpath 'com.android.tools.build:gradle:7.3.0'
+go to android/gradle/wrapper/graddle-wrapper.properties 
+update to line => distributionUrl=https\://services.gradle.org/distributions/gradle-7.6.3-all.zip
+```
+
 
 ![](https://github.com/korrakot1396/flutter_todos_app/blob/main/config.png)
 
