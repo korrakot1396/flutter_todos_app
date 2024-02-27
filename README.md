@@ -30,3 +30,6 @@ fvm flutter pub get
 fvm flutter pub outdated
 fvm flutter run
 ```
+
+## Configuration for run on localhost need to config your-ip-address
+![](https://github.com/korrakot1396/flutter_todos_app/blob/main/config.png)
