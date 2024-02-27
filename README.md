@@ -55,6 +55,8 @@ go to android/gradle/wrapper/graddle-wrapper.properties
 update to line => distributionUrl=https\://services.gradle.org/distributions/gradle-7.6.3-all.zip
 ```
 
+![](https://github.com/korrakot1396/flutter_todos_app/blob/main/config.png)
+
 ## Functionality
 
 1. CRUD Operations: Implement complete CRUD operations for managing todos, including viewing, creating, updating, and deleting tasks.
@@ -65,9 +67,6 @@ update to line => distributionUrl=https\://services.gradle.org/distributions/gra
 6. Sorting Options: Implement sorting functionality to allow users to organize their tasks based on title, status, and date. Provide intuitive controls for sorting order (ascending/descending).
 7. Delete Task: Allow users to delete tasks they no longer need. Implement a confirmation dialog to prevent accidental deletions.
 8. Image Preview: Offer users the ability to preview images before uploading them. This feature enhances user experience by allowing them to verify the selected image before final submission.
-
-
-![](https://github.com/korrakot1396/flutter_todos_app/blob/main/config.png)
 
 ## Demo
 ![](https://github.com/korrakot1396/flutter_todos_app/blob/main/pv_2.png)
