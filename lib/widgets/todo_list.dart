@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gin_todo_app/models/todo.dart';
 import '../services/todo_service.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TodoList extends StatefulWidget {
   final List<Todo> todos;
@@ -81,7 +85,7 @@ class _TodoListState extends State<TodoList> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (todo.description!.isNotEmpty) Text(todo.description),
+                  if (todo.description!.isNotEmpty) Text(todo.description!),
                   SizedBox(height: 5),
                   Text('Date: ${todo.date ?? 'Unknown'}'),
                   SizedBox(height: 5),
@@ -99,6 +103,13 @@ class _TodoListState extends State<TodoList> {
                     ),
                   ),
                   SizedBox(height: 10),
+                  if (todo.image != null && todo.image.isNotEmpty)
+                    Image.memory(
+                      base64Decode(todo.image), // Decode the base64 string
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      fit: BoxFit.fill,
+                    ),
                   Visibility(
                     visible: todo.status != 'COMPLETED',
                     child: ElevatedButton.icon(
@@ -154,41 +165,68 @@ class _TodoListState extends State<TodoList> {
     }
   }
 
-  // Function to handle opening the modal for editing the title
   void _editTitle(BuildContext context, Todo todo) async {
     String newTitle = await showDialog(
       context: context,
       builder: (BuildContext context) {
         TextEditingController _controller = TextEditingController(text: todo.title);
-        return AlertDialog(
-          title: Text("Edit Todo Title"),
-          content: TextField(
-            controller: _controller,
-            decoration: InputDecoration(hintText: "Enter new title"),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog without saving changes
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                // Return the new title when the user confirms the edit
-                Navigator.of(context).pop(_controller.text);
-              },
-              child: Text('Save'),
-            ),
-          ],
+        XFile? _pickedImage;
+
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Text("Edit Todo Title"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(hintText: "Enter new title"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      XFile? pickedImage = await _pickImage();
+                      if (pickedImage != null) {
+                        setState(() {
+                          _pickedImage = pickedImage;
+                        });
+                      }
+                    },
+                    child: Text('Pick Image'),
+                  ),
+                  if (_pickedImage != null)
+                    Image.file(File(_pickedImage!.path)),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog without saving changes
+                  },
+                  child: Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    String? encodedImage;
+                    if (_pickedImage != null) {
+                      List<int> imageBytes = await _pickedImage?.readAsBytes() ?? [];
+                      encodedImage = base64Encode(imageBytes);
+                    }
+                    await _updateTodo(todo.id, _controller.text, encodedImage);
+                    Navigator.of(context).pop(_controller.text); // Return the new title
+                  },
+                  child: Text('Save'),
+                ),
+              ],
+            );
+          },
         );
       },
     );
 
     if (newTitle != null && newTitle.isNotEmpty) {
-      // Update the title if a new title is provided
       try {
-        await widget.todoService.updateTodoTitle(todo.id, newTitle);
+        await widget.todoService.updateTodo(todo.id, newTitle, "");
         List<Todo> updatedTodos = await widget.todoService.fetchTodos();
         setState(() {
           widget.todos.clear();
@@ -207,6 +245,21 @@ class _TodoListState extends State<TodoList> {
           ),
         );
       }
+    }
+  }
+
+  Future<XFile?> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    return pickedImage;
+  }
+
+  Future<void> _updateTodo(String todoId, String newTitle, String? encodedImage) async {
+    try {
+      await widget.todoService.updateTodo(todoId, newTitle, encodedImage!);
+    } catch (e) {
+      print("Error updating todo: $e");
+      throw e;
     }
   }
 }

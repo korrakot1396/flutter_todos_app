@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gin_todo_app/models/todo.dart';
 
@@ -50,13 +51,21 @@ class TodoService {
     }
   }
 
-  Future<void> updateTodoTitle(String id, String title) async {
+  Future<void> updateTodo(String id, String title, String encodedImage) async {
     final Map<String, String> headers = {
       'Content-Type': 'application/json',
     };
 
-    final String body = jsonEncode({'title': title});
+    // Create a map containing the title and encodedImage
+    final Map<String, String> requestBody = {
+      'title': title,
+      'image': encodedImage, // Rename 'encodedImage' to 'image' in the request body
+    };
+
+    final String body = jsonEncode(requestBody);
     final int contentLength = utf8.encode(body).length;
+
+    print('Encoded Image: $encodedImage'); // Print the encoded image
 
     final response = await http.put(
       Uri.parse('$apiUrl/tasks/$id'),
@@ -71,6 +80,7 @@ class TodoService {
       throw Exception('Failed to update todo title');
     }
   }
+
 
   Future<void> markTodoAsDone(String id) async {
     final Map<String, String> headers = {

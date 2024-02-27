@@ -4,7 +4,7 @@ class Todo {
   final String date;
   late final String status;
   final String description;
-  final String? image;
+  final String image;
 
 
   Todo({
